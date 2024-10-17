@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<style>
+	body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        border: 3px solid grey;
+        margin: 20px;
+        box-sizing: content-box;
+    }
+    
+    .box {
+            width: 100%;
+            height: auto;
+            background-color: #F0FFFF;
+            padding: 20px;
+            box-sizing: border-box;
+       }
+
+    h1 {
+        color: #333;
+    }
+    
+    h3 {
+        margin-bottom: 1px;
+        font-family: "Lucida Console", "Courier New", monospace;
+        text-align: center;
+    }
+        
+    h4 {
+        margin-bottom: 1px;
+    }
+
+    p {
+        margin-top: 1px;
+        color: #000;
+    }
+
+    .contact-data {
+        font-size: small;
+        text-align: center;
+        
+    }
+
+    .name {
+        text-align: center;
+        padding-right: 10px;
+        font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    .photo {
+        width: 150px;
+        height: 150px;
+        background-color: lightgrey;
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 100px;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        gap: 200px;
+    }
+    
+    .skills-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 70px;
+    }
+     th, td {
+             border: 2px solid white;
+             padding: 1px;
+     }
+     td.bottom-right {
+        border-right: 2px solid #424242;
+        border-bottom: 2px solid #424242;
+     }
+     td.bottom-right-top {
+        border-bottom: 2px solid #424242;
+      }
+     td.bottom-right-right {
+        border-right: 2px solid #424242;
+     }
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>42 Resume</title> 
+</head>
+<body>
+
+<main class="box">
+<div class="header-container">
+    <div class="photo"></div>
+    <div class="name">
+        <h1>Incognito Giraffe</h1>
+    </div>
+</div>
+ <div class="contact-data">
+        <p>example@email.com / (555)123-4567 / Grand Marais, MN</p>
+ </div>
+<hr>
+<article>
+    <h3>Experience</h3>
+<div>
+    <h4>Office Clerk</h4>
+    <p>Mackeli • Las Vegas, Nevada<br>June 2020 - Present</p>
+        <ul>
+            <li>Reported to the director of office services to handle all clerical needs for the director's office, including office filing, organization and preparation of daily tasks and to handle any other tasks as assigned</li>
+            <li>Maintained a filing system for all files and documents within the director's office, which resulted in an increase of 7% in the amount of minutes per day spent on work-related tasks</li>
+            <li>Handled paper and document shredding, ensuring all documents and files are shredded securely and completely</li>
+            <li>Handled all administrative correspondence and customer service inquiries for the director's office through email, telephone and fax, ensuring that all issues were addressed in 30 minutes or less</li>
+        </ul>
+</div>
+<div>
+    <h4>Office Manager</h4>
+    <p>Peak Office • Las Vegas, Nevada<br>December 2018</p>
+        <ul>
+            <li>Supervised 3 other managers and 100 employees in a fast paced, busy environment</li>
+            <li>Created new processes, procedures and systems to improve efficiency and cut costs</li>
+            <li>Established a full fledged marketing department, which included the creation of new marketing materials, advertisements and website</li>
+            <li>Managed 3 different teams involved with residential lease, commercial office lease and student leasing, as well as ensuring that all maintenance issues were addressed</li>
+        </ul>
+</div>
+</article>
+<article>
+    <h3>Education</h3>
+<div>
+    <h4>High School Diploma</h4>
+    <p>Georges Vanier Secondary School • Las Vegas, Nevada</p>
+</div>
+</article>
+<article>
+    <h3>Skills</h3>
+<div class="skills-container">
+    <ol>
+        <li>Microsoft Office</li> 
+        <li>Microsoft Word</li> 
+        <li>Microsoft Excel</li>
+        <li>Communication Skills</li>
+        <li>Computer Literacy</li>
+        <li>Customer Service</li>
+    </ol>
+    <table style="border-collapse: collapse; width: 50%;">
+  <tr>
+    <th>Language</th>
+    <th>Level</th> 
+  </tr>
+  <tr>
+    <td>English</td>
+    <td>C2</td>
+  </tr>
+  <tr>
+    <td>German</td>
+    <td>C1</td>
+  </tr>
+  <tr>
+    <td>French</td> 
+    <td class="bottom-right-top">B2</td> 
+  </tr>
+  <tr>
+    <td class="bottom-right-right">Spanish</td>
+    <td class="bottom-right">B1</td>
+  </tr>
+</table>
+</div>
+</article>
+</main>
+</body>
+</html>
