@@ -19,13 +19,12 @@ class Elem {
         $selfClosingTags = ['meta', 'img', 'hr', 'br'];
 
         if (in_array($this->elem, $selfClosingTags)) {
-            return "<" . $this->elem . "/>\n" . $this->content . "\n";
+            return "<$this->elem/>\n$this->content\n";
         }
-        return "<" . $this->elem . ">\n" . $this->content . "\n</" . $this->elem . ">\n";
+        return "<$this->elem>\n$this->content\n</$this->elem>\n";
     }
-    
-
 }
+
 
 
 ?>
