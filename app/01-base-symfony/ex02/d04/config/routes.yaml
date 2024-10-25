@@ -1,0 +1,15 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+e00bundle:
+    resource: '../src/E00Bundle/Controller/'
+    type: attribute
+e01bundle:
+    resource: '../src/E01Bundle/Controller/'
+    type: attribute
+e02bundle:
+    resource: '../src/E02Bundle/Controller/'
+    type: attribute

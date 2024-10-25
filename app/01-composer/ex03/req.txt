@@ -1,0 +1,1 @@
+The composer install command is used to install all the dependencies listed in the composer.lock file, ensuring that all developers use the same versions of the packages. In contrast, the composer update command updates the dependencies to their latest versions based on the composer.json file and modifies the composer.lock file to reflect these new versions.

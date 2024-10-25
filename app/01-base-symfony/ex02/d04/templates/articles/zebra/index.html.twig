@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1 style="text-align:center;">Zebra</h1>
+    <h3 style="text-align:center;">A zebra’s average lifespan in the wild is 25 years</h3>
+    <div style="display: flex;justify-content: center;">
+        <div style="width:50%;">
+            <p style="text-align:center;">Zebras are social animals and live in groups called herds. 
+            There is typically a lead male of the herd, called a stallion. The herd also consists of several females 
+            and their young. The stallion stays at the back of the group to defend against predators. 
+            When zebras are grouped together, the stripes make it difficult for predators, including lions and leopards, 
+            to pick out one zebra to chase. Zebras communicate with each other through facial expressions, 
+            ear positioning and sounds. They make loud braying or barking sounds and soft snorting sounds. 
+            Their ear positioning, how wide open their eyes are, and whether they show their teeth all send a signal.</p>
+            <img src="{{ asset('images/Zebra.jpeg') }}" alt="blue-whale" width="600" height="400" style="padding-left: 80px">
+            <p style="text-align:center;">Lions, hyenas, wild dogs, and cheetahs are among zebras’ natural predators. 
+            However, the largest threats to zebras are linked to human activities, such as hunting and habitat loss or 
+            fragmentation. Habitat loss due to human encroachment, agricultural practices, and livestock grazing remains 
+            an issue in the ongoing conservation of this species.</p>
+        </div>
+    </div>
+    <div style="text-align:center;">
+        <a href="/e01">Main Page</a>
+    </div>
+{% endblock %}

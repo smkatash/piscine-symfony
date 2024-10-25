@@ -1,0 +1,2 @@
+composer install
+composer show monolog/monolog

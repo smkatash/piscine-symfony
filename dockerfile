@@ -35,8 +35,10 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && npm install -g yarn
 
 # Set up permissions (optional but recommended)
-RUN useradd -ms /bin/bash symfony \
-    && chown -R symfony:symfony /var/www/html
+RUN useradd -ms /bin/bash symfony 
+    #&& chown -R symfony:symfony /app
+
+RUN apt-get update && apt-get install sudo
 
 # Set the working directory
 WORKDIR /app
