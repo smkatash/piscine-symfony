@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div style="height:400px">
+       <table style="width:50%; margin-left: auto; margin-right: auto; border: 1px solid black">
+        <caption>Monthly savings</caption>
+        <tr>
+            <th style="height: 40px; width: 80px;">Color</th>
+            <th style="height: 40px; width: 80px;">Shade</th>
+        </tr>
+        {% for colorName, shades in colors %}
+            <tr>
+                <td style="height: 40px; width: 80px; text-align: center">{{ colorName }}</td>
+                <td>
+                    {% for shade in shades %}
+                        <div style="height: 40px; width: 80px; display: inline-block; vertical-align: top; background-color: {{ shade }};"></div>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+       </table>
+    </div>
+{% endblock %}

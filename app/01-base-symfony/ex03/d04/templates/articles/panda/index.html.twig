@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1 style="text-align:center;">Giant Panda</h1>
+    <h3 style="text-align:center;">It is a bear that is famous for its love of bamboo.</h3>
+    <div style="display: flex;justify-content: center;">
+        <div style="width:50%;">
+            <p style="text-align:center;">Giant panda typically inhabit regions that are high in elevation, 
+            between 4,000 and 11,500 feet, which they share with other rare animals such as the Sichuan takin. 
+            Pandas prefer living in damp, misty forested areas.
+            Giant pandas have specific needs and they include having at least two species of bamboo and a water source contained 
+            within an old-growth conifer forest. This type of forest offers large tree stumps and hollow logs that are the right 
+            size for panda dens. The other benefits to this type of habitat are that shelter and nutrients are present for 
+            the bamboo that grows there. </p>
+            <img src="{{ asset('images/Panda.jpeg') }}" alt="blue-whale" width="600" height="300" style="padding-left: 80px">
+            <p style="text-align:center;">The giant panda was once widespread throughout China, and even Myanmar and northern Vietnam. 
+            However, they have been on the endangered species list from 1990 to 2016, before this was switched to vulnerable – 
+            mainly due to habitat loss, poaching and poor breeding. </p>
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+        <a href="/e01">Main Page</a>
+    </div>
+{% endblock %}

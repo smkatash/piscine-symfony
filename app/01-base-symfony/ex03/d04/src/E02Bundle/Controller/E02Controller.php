@@ -17,7 +17,7 @@ use Twig\Environment;
 class E02Controller extends AbstractController
 {
 
-    #[Route('/e03', name: 'color-table')]
+    #[Route('/e02', name: 'form')]
     public function index(Environment $twig, Request $request, LoggerInterface $logger): Response
     {
         $message = new Message();
