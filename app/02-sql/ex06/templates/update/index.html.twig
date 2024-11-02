@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h3 style="text-align: center;">Update User</h3>
+    <div style="height: 400px; text-align: center; margin: 20px 0;">
+         <div style="margin-bottom: 20px;">{{ form_start(form) }}</div>
+           <div style="margin-bottom: 20px;">{{ form_row(form.username) }}</div>
+            <div style="margin-bottom: 20px;">{{ form_row(form.name) }}</div>
+            <div style="margin-bottom: 20px;">{{ form_row(form.email) }}</div>
+            <div style="margin-bottom: 20px;">{{ form_row(form.enable) }}</div>
+            <div style="margin-bottom: 20px;">{{ form_row(form.birthdate) }}</div>
+            <div style="margin-bottom: 20px;">{{ form_row(form.address) }}</div>
+            <div>{{ form_row(form.submit) }}</div>
+        <div style="margin-bottom: 20px;">{{ form_end(form) }}</div>
+    </div>
+{% endblock %}

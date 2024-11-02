@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div style="height:400px">
+       <table style="width:100%; table-layout: auto; margin-left: auto; margin-right: auto; border: 1px solid black">
+        <caption>Users</caption>
+        <tr>
+            <th style="height: 40px; width: 80px;">id</th>
+            <th style="height: 40px; width: 80px;">username</th>
+            <th style="height: 40px; width: 80px;">name</th>
+            <th style="height: 40px; width: 80px;">email</th>
+            <th style="height: 40px; width: 80px;">enable</th>
+            <th style="height: 40px; width: 80px;">birthdate</th>
+            <th style="height: 40px; width: 80px;">address</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.id }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.username }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.name }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.email }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.enable }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.birthdate ? user.birthdate|date('Y-m-d') : 'N/A' }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.address }}</td>
+            </tr>
+        {% endfor %}
+       </table>
+    </div>
+{% endblock %}

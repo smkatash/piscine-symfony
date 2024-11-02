@@ -1,0 +1,9 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+ex03bundle:
+    resource: '../src/ex03/Controller/'
+    type: attribute
