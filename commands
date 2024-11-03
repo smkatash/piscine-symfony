@@ -2,3 +2,8 @@ DROP DB: php bin/console doctrine:schema:drop --full-database --force
 Create DB: php bin/console doctrine:database:create
 Case clean: php bin/console cache:clear
 New project: composer create-project symfony/skeleton d04 "^versionLTS"
+Twig: composer require symfony/twig-bundle
+Maker: composer require symfony/maker-bundle --dev
+Orm: composer require orm 
+Controlle: php bin/console make:controller ProductController
+composer require symfony/form

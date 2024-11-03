@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Add Relationship</h1>
+    <form method="POST">
+        <label>
+            <input type="radio" name="relationship_type" value="one_to_one" required>
+            One-to-One
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="relationship_type" value="one_to_many">
+            One-to-Many
+        </label>
+        <br>
+
+        <label for="table_one">Select Table One:</label>
+        <select name="table_one" id="table_one" required>
+            {% for table in tables %}
+                <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="table_two">Select Table Two:</label>
+        <select name="table_two" id="table_two" required>
+            {% for table in tables %}
+                <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <button type="submit">Create Relationship</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div style="height:400px; text-align: center">
+        <h3>Add Column</h3>
+        <div style="margin-bottom: 20px;">{{ form_start(form) }}</div>
+            <div style="margin-bottom: 20px;">{{ form_widget(form) }}</div>
+            <div style="margin-bottom: 20px;"><button type="submit">Add Column</button></div>
+        <div style="margin-bottom: 20px;">{{ form_end(form) }}</div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+     <div style="height:400px; margin: 20px 0;">
+       <table style="width:100%; table-layout: auto; margin-left: auto; margin-right: auto; border: 1px solid black">
+        <caption>Tables</caption>
+        {% for tableName in tables %}
+            <tr>
+                <td style="margin-bottom: 20px; text-align:center; border:1px solid black;">{{ tableName }}</td>
+                <td style="text-align: center;">
+                    <a href="{{ path('create_table', {table: tableName}) }}">
+                        <button type="button">Create Table </button>
+                    </a>
+                </td>
+                <td style="text-align: center;">
+                    <a href="{{ path('table_schema', {table: tableName}) }}">
+                        <button type="button">Get Table </button>
+                    </a>
+                </td>
+                <td style="text-align: center;">
+                    <a href="{{ path('add_column', {table: tableName}) }}">
+                        <button type="button">Add Column </button>
+                    </a>
+                </td>
+                <td style="text-align: center;">
+                    <a href="{{ path('drop_table', {table: tableName}) }}">
+                        <button type="button">Drop Table </button>
+                    </a>
+                </td>
+                <td style="text-align: center;">
+                    <a href="{{ path('add_relationship') }}">
+                        <button type="button">Add relationship </button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+       </table>
+{% endblock %}
