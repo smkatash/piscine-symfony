@@ -36,7 +36,7 @@ class E03Controller extends AbstractController
                 return $this->redirectToRoute('all_users');
             } catch (UniqueConstraintViolationException $e) {
                 return new Response("Error creating user: username or email already exists.");
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return new Response("Error creating user: $e");
             }
         }
@@ -52,7 +52,7 @@ class E03Controller extends AbstractController
         $users = [];
         try {
             $users = $userService->getUsers($entityManager);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
                 return new Response("Error: $e");
         }
         return $this->render('users/index.html.twig', [

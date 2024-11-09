@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p><strong>Author:</strong> {{ post.author }}</p>
+    <p><strong>Created at:</strong> {{ post.createdAt|date('Y-m-d H:i:s') }}</p>
+    <p>{{ post.content }}</p>
+
+     <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_posts') }}">
+            <button type="button">Go to all posts</button>
+        </a>
+    </div>
+{% endblock %}

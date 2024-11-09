@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Successfull registration{% endblock %}
+
+{% block content %}
+    <div style="height: 400px; text-align: center; margin: 20px 0;">
+        <h1>Successfull registration!</h1>
+        <a href="{{ path('app_login') }}">
+            <button type="button">Login</button>
+        </a>
+        <br>
+        <a href="{{ path('home') }}">
+            <button type="button">Main page</button>
+        </a>
+    </div>
+{% endblock %}

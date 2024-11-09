@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Successfull log in!{% endblock %}
+
+{% block content %}
+    <div style="height: 400px; text-align: center; margin: 20px 0;">
+        <h2>Welcome {{ last_username }}! </h2>
+        {% if is_granted('ROLE_ADMIN') %}
+            <br>
+            <a href="{{ path('admin_dashboard') }}">
+                <button type="button">Admin Dashboard</button>
+            </a>
+        {% endif %}
+        <br>
+        <a href="{{ path('app_posts') }}">
+            <button type="button">Posts</button>
+        </a>
+        <br>
+        <a href="{{ path('app_logout') }}">
+            <button type="button">Logout</button>
+        </a>
+    </div>
+{% endblock %}

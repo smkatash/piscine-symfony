@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div style="height:400px">
+       <table style="width:100%; table-layout: auto; margin-left: auto; margin-right: auto; border: 1px solid black">
+        <caption>Users</caption>
+        <tr>
+            <th style="height: 40px; width: 80px;">id</th>
+            <th style="height: 40px; width: 80px;">name</th>
+            <th style="height: 40px; width: 80px;">email</th>
+            <th style="height: 40px; width: 80px;">roles</th>
+            <th style="height: 40px; width: 80px;">actions</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.id }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.name }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;">{{ user.email }}</td>
+                <td style="height: 40px; text-align: center; padding: 5px;"> {{ user.roles | join(', ') }}</td>
+                <td>
+                    {# Delete button form #}
+                    <form action="{{ path('admin_delete_user', {id: user.id }) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Delete User</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+       </table>
+       <div style="height:400px; text-align: center">
+        <a href="{{ path('app_post_login') }}">
+            <button type="button">My page</button>
+        </a>
+        </div>
+    </div>
+{% endblock %}
