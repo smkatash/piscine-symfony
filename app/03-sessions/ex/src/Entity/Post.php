@@ -26,10 +26,16 @@ class Post
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
     #[ORM\JoinColumn( nullable: false, onDelete: "CASCADE" )]
     private ?User $author = null;
+    
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'postEdits')]
+    #[ORM\JoinColumn( nullable: true, onDelete: "SET NULL" )]
+    private ?User $editor = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "likedPosts")]
     private Collection $likedByUsers;
@@ -80,6 +86,29 @@ class Post
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt ?? new \DateTimeImmutable();
+
+        return $this;
+    }
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt ?? new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function getEditor(): ?User
+    {
+        return $this->editor;
+    }
+
+    public function setEditor(User $editor): static
+    {
+        $this->editor = $editor;
 
         return $this;
     }

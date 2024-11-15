@@ -47,8 +47,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'user_disliked_posts')]
     private Collection $dislikedPosts;
 
+    #[ORM\OneToMany(targetEntity: Post::class, cascade: ['persist', 'remove'], mappedBy: 'author')]
+    private Collection $posts;
+    
+    #[ORM\OneToMany(targetEntity: Post::class, cascade: ['persist'], mappedBy: 'editor')]
+    private Collection $postEdits;
+
     public function __construct()
     {
+        $this->posts = new ArrayCollection();
+        $this->postEdits = new ArrayCollection();
         $this->likedPosts = new ArrayCollection();
         $this->dislikedPosts = new ArrayCollection();
     }
@@ -145,6 +153,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function getPostEdits(): Collection
+    {
+        return $this->postEdits;
+    }
+
+    public function addPostEdit(Post $post): self
+    {
+        if (!$this->postEdits->contains($post)) {
+            $this->postEdits->add($post);
+            $post->setEditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+    
     public function getLikedPosts(): Collection
     {
         return $this->likedPosts;

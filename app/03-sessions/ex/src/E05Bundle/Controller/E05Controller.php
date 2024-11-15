@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Post;
+use App\Entity\User;
 use Psr\Log\LoggerInterface; 
 
 class E05Controller extends AbstractController
@@ -114,6 +115,40 @@ class E05Controller extends AbstractController
         } catch (\Exception $e) {
             $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
             return $this->redirectToRoute('app_get_post', ['id' => $id]);
+        }
+    }
+
+    #[Route('/e05/author/{id}', name: 'app_author_post')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function getAuthor(int $id, EntityManagerInterface $entityManager): Response
+    {
+        try {
+            $this->logger->info('GETTING ID');
+            $this->logger->info($id);
+            $userRepository = $entityManager->getRepository(User::class);
+            $user = $userRepository->findOneBy(['id' => $id]);
+            
+            $this->logger->info($user);
+            if (!$user) {
+                return new JsonResponse(['message' => 'User does not exist.'], Response::HTTP_NOT_FOUND);
+            }
+            $posts = $user->getPosts();
+            $likes = 0;
+            $dislikes = 0;
+            if ($posts) {
+                foreach ($posts as $post) {
+                    $likes += count($post->getLikedByUsers());
+                    $dislikes += count($post->getDislikedByUsers());
+                }
+            }
+
+            return $this->render('authors/index.html.twig', [
+                'author' => $user,
+                'reputation' => $likes - $dislikes,
+                'posts' => count($posts)
+            ]);
+        } catch (\Exception $e) {
+            return new Response("Error: $e");
         }
     }
 

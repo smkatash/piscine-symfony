@@ -47,9 +47,12 @@ class E03Controller extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $post->setAuthor($this->getUser());
+            $user = $this->getUser();
             $post->setCreatedAt(new \DateTimeImmutable());
+            $post->setUpdatedAt(new \DateTimeImmutable());
+            $user->addPost($post);
             $entityManager->persist($post);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_posts');
@@ -60,7 +63,7 @@ class E03Controller extends AbstractController
         ]);
     }
 
-    #[Route('/e02/posts/{id}', name: 'app_get_post')]
+    #[Route('/e03/posts/{id}', name: 'app_get_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function getPost(int $id, EntityManagerInterface $entityManager): Response
     {
@@ -70,15 +73,12 @@ class E03Controller extends AbstractController
             if (!$post) {
                 return new JsonResponse(['message' => 'Post does not exist.'], Response::HTTP_NOT_FOUND);
             }
-            $this->logger->info('Number of likes: ' . count($post->getLikedByUsers()));
-            $this->logger->info('Number of dislikes: ' . count($post->getDislikedByUsers()));
             return $this->render('posts/post.html.twig', [
-                'post' => $post,
+                'post' => $post
             ]);
         } catch (\Exception $e) {
             return new Response("Error: $e");
         }
-
     }
 }
 

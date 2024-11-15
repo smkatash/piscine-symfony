@@ -1,4 +1,4 @@
-DROP DB: php bin/console doctrine:schema:drop --full-database --force
+lDROP DB: php bin/console doctrine:schema:drop --full-database --force
 Create DB: php bin/console doctrine:database:create
 Case clean: php bin/console cache:clear
 New project: composer create-project symfony/skeleton d04 "^versionLTS"
@@ -10,3 +10,6 @@ composer require symfony/form
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:database:drop --force
 php bin/console make:migration
+
+Validate: php bin/console doctrine:schema:validate
+Update: php bin/console doctrine:schema:update --force

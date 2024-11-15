@@ -7,6 +7,7 @@ return [
     App\E03Bundle\E03Bundle::class => ['all' => true],
     App\E04Bundle\E04Bundle::class => ['all' => true],
     App\E05Bundle\E05Bundle::class => ['all' => true],
+    App\E06Bundle\E06Bundle::class => ['all' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],

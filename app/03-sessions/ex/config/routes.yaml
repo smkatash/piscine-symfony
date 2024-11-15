@@ -19,3 +19,6 @@ e04bundle:
 e05bundle:
     resource: ../src/E05Bundle/Controller/
     type: attribute
+e06bundle:
+    resource: ../src/E06Bundle/Controller/
+    type: attribute

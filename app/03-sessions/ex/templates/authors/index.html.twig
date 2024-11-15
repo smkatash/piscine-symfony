@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ author.name }}</h1>
+    <p><strong>Number of posts:</strong> {{ posts }}</p>
+    <p><strong>⬆️ Reputation:</strong> {{ reputation }}</p>
+     <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_posts') }}">
+            <button type="button">Go to all posts</button>
+        </a>
+    </div>
+{% endblock %}

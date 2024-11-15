@@ -11,7 +11,6 @@
                 <th style="padding: 10px; text-align: left;">Date</th>
                 <th style="padding: 10px; text-align: left;">👍 Likes</th>
                 <th style="padding: 10px; text-align: left;">👎 Dislikes</th>
-                <th style="padding: 10px; text-align: left;">⬆️ Reputation</th>
             </tr>
         </thead>
         <tbody>
@@ -20,11 +19,12 @@
                     <td style="padding: 10px; text-align: left;">
                         <a href="{{ path('app_get_post', {'id': post.id}) }}">{{ post.title }}</a>
                     </td>
-                    <td style="padding: 10px; text-align: left;">{{ post.author }}</td>
+                    <td style="padding: 10px; text-align: left;">
+                        <a href="{{ path('app_author_post', {'id': post.author.id}) }}">{{ post.author }}</a>
+                    </td>
                     <td style="padding: 10px; text-align: left;">{{ post.createdAt|date('Y-m-d H:i:s') }}</td>
                     <td style="padding: 10px; text-align: left;">{{ post.likedByUsers|length }}</td>
                     <td style="padding: 10px; text-align: left;">{{ post.dislikedByUsers|length }}</td>
-                    <td style="padding: 10px; text-align: left;">{{ post.likedByUsers|length - post.dislikedByUsers|length }}</td>
                 </tr>
             {% endfor %}
         </tbody>

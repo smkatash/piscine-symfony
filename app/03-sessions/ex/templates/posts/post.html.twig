@@ -4,26 +4,13 @@
     <h1>{{ post.title }}</h1>
     <p><strong>Author:</strong> {{ post.author }}</p>
     <p><strong>Created at:</strong> {{ post.createdAt|date('Y-m-d H:i:s') }}</p>
+    {% if post.createdAt|date('Y-m-d H:i:s') != post.updatedAt|date('Y-m-d H:i:s') %}
+        <p><strong>Updated at:</strong> {{ post.updatedAt|date('Y-m-d H:i:s') }}</p>
+    {% else %}
+        <p><strong>Updated at:</strong> Not updated</p>
+    {% endif %}
+    <p><strong>Last edited by:</strong> {{ post.editor }}</p>
     <p>{{ post.content }}</p>
-    <p><strong>Liked by:</strong>
-        {% if post.likedByUsers|length > 0 %}
-            {% for user in post.likedByUsers %}
-                {{ user }}{% if not loop.last %}, {% endif %}
-            {% endfor %}
-        {% else %}
-            No likes yet.
-        {% endif %}
-    </p>
-
-    <p><strong>Disliked by:</strong>
-        {% if post.dislikedByUsers|length > 0 %}
-            {% for user in post.dislikedByUsers %}
-                {{ user }}{% if not loop.last %}, {% endif %}
-            {% endfor %}
-        {% else %}
-            No dislikes yet.
-        {% endif %}
-    </p>
 
     <div style="margin-top: 20px; text-align: center;">
         <form action="{{ path('app_post_like', { id: post.id }) }}" method="post" style="display: inline;">
@@ -31,6 +18,12 @@
         </form>
         <form action="{{ path('app_post_dislike', { id: post.id }) }}" method="post" style="display: inline;">
             <button type="submit">👎 Dislike</button>
+        </form>
+    </div>
+
+     <div style="text-align: center; margin-top: 20px;">
+        <form action="{{ path('app_post_edit', { id: post.id }) }}" method="post" style="display: inline;">
+            <button type="submit">Edit post</button>
         </form>
     </div>
      <div style="text-align: center; margin-top: 20px;">

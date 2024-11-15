@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit post{% endblock %}
+
+{% block content %}
+    <div style="height: 400px; text-align: center; margin: 20px 0;">
+        <h1>New post</h1>
+
+        {{ form_errors(form) }}
+
+        {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.content) }}
+            <button type="submit" class="btn">Save changes</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
