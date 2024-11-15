@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\Table(name: '`post`')]
 class Post
 {
     #[ORM\Id]
@@ -26,6 +30,18 @@ class Post
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn( nullable: false, onDelete: "CASCADE" )]
     private ?User $author = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "likedPosts")]
+    private Collection $likedByUsers;
+    
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: "dislikedPosts")]
+    private Collection $dislikedByUsers;
+
+    public function __construct()
+    {
+        $this->likedByUsers = new ArrayCollection();
+        $this->dislikedByUsers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,5 +94,43 @@ class Post
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getLikedByUsers(): Collection
+    {
+        return $this->likedByUsers;
+    }
+
+    public function addLikedByUser(User $user): void
+    {
+        if (!$this->likedByUsers->contains($user)) {
+            $this->likedByUsers->add($user);
+        }
+    }
+
+    public function removeLikedByUser(User $user): void
+    {
+        if ($this->likedByUsers->contains($user)) {
+            $this->likedByUsers->removeElement($user);
+        }
+    }
+
+    public function getDislikedByUsers(): Collection
+    {
+        return $this->dislikedByUsers;
+    }
+
+    public function addDislikeByUser(User $user): void
+    {
+        if (!$this->dislikedByUsers->contains($user)) {
+            $this->dislikedByUsers->add($user);
+        }
+    }
+
+    public function removeDislikeByUser(User $user): void
+    {
+        if ($this->dislikedByUsers->contains($user)) {
+            $this->dislikedByUsers->removeElement($user);
+        }
     }
 }

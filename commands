@@ -5,7 +5,7 @@ New project: composer create-project symfony/skeleton d04 "^versionLTS"
 Twig: composer require symfony/twig-bundle
 Maker: composer require symfony/maker-bundle --dev
 Orm: composer require orm 
-Controlle: php bin/console make:controller ProductController
+Controller: php bin/console make:controller ProductController
 composer require symfony/form
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:database:drop --force

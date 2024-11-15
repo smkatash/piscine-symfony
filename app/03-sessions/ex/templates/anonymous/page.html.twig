@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Successfull log in!{% endblock %}
+
+{% block content %}
+    <div style="height: 400px; text-align: center; margin: 20px 0;">
+        <h2>Welcome {{username }}! </h2>
+        <h6>Last request time {{ last_request_time }} seconds ago</h6>
+        <h6> Created: {{ created }}</h6>
+        <h6> Last used {{ last_used }}</h6>
+        <h6> Expires in {{ expire_in }}</h6>
+        <br>
+        <a href="{{ path('app_session_expired') }}">
+            <button type="button">End session</button>
+        </a>
+        <br>
+        <a href="{{ path('home') }}">
+            <button type="button">Main page</button>
+        </a>
+    </div>
+{% endblock %}

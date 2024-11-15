@@ -11,9 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Entity\Post;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\PostFormType;
+use Psr\Log\LoggerInterface; 
 
 class E03Controller extends AbstractController
 {
+    private LoggerInterface $logger;
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     #[Route('/e03/posts', name: 'app_posts')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -43,7 +49,6 @@ class E03Controller extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $post->setAuthor($this->getUser());
             $post->setCreatedAt(new \DateTimeImmutable());
-
             $entityManager->persist($post);
             $entityManager->flush();
 
@@ -65,6 +70,8 @@ class E03Controller extends AbstractController
             if (!$post) {
                 return new JsonResponse(['message' => 'Post does not exist.'], Response::HTTP_NOT_FOUND);
             }
+            $this->logger->info('Number of likes: ' . count($post->getLikedByUsers()));
+            $this->logger->info('Number of dislikes: ' . count($post->getDislikedByUsers()));
             return $this->render('posts/post.html.twig', [
                 'post' => $post,
             ]);

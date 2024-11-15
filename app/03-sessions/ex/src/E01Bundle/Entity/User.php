@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\E01Bundle\Entity;
 
-use App\Repository\UserRepository;
+use App\E01Bundle\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`users`')]
+#[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -23,9 +21,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180)]
     private ?string $email = null;
-    
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
 
     /**
      * @var list<string> The user roles
@@ -38,20 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
-
-    #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'likedByUsers')]
-    #[ORM\JoinTable(name: 'user_liked_posts')]
-    private Collection $likedPosts;
-
-    #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'dislikedByUsers')]
-    #[ORM\JoinTable(name: 'user_disliked_posts')]
-    private Collection $dislikedPosts;
-
-    public function __construct()
-    {
-        $this->likedPosts = new ArrayCollection();
-        $this->dislikedPosts = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -69,24 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
 
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    
-    public function __toString(): string
-    {
-        return $this->getName();
-    }
     /**
      * A visual identifier that represents this user.
      *
@@ -144,39 +108,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-
-    public function getLikedPosts(): Collection
-    {
-        return $this->likedPosts;
-    }
-
-    public function addLikedPost(Post $post): void
-    {
-        if (!$this->likedPosts->contains($post)) {
-            $this->likedPosts->add($post);
-        }
-    }
-
-    public function removeLikedPost(Post $post): void
-    {
-        $this->likedPosts->removeElement($post);
-    }
-
-    public function getDislikedPosts(): Collection
-    {
-        return $this->dislikedPosts;
-    }
-
-    public function addDislikedPost(Post $post): void
-    {
-        if (!$this->dislikedPosts->contains($post)) {
-            $this->dislikedPosts->add($post);
-        }
-    }
-
-    public function removeDislikedPost(Post $post): void
-    {
-        $this->dislikedPosts->removeElement($post);
-    }
-
 }
