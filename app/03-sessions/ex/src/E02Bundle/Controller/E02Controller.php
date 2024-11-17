@@ -43,7 +43,9 @@ class E02Controller extends AbstractController
             }
 
             if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
-                return new JsonResponse(['message' => 'Admin users cannot be deleted.'], Response::HTTP_FORBIDDEN);
+                return $this->redirectToRoute('error_page', [
+                    'message' => 'Admin users cannot be deleted.'
+                ]);
             }
             
             $entityManager->remove($user);

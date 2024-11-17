@@ -10,19 +10,24 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
-    #[Route('/e02/make-admin/{email}', name: 'make_admin')]
+    #[Route('/e02/users/roles/admin/{email}', name: 'make_admin')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function makeAdmin(string $email, EntityManagerInterface $entityManager): Response
     {
-        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+        try {
+            $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
+            if (!$user) {
+                throw $this->createNotFoundException('User not found');
+            }
+            $user->setRoles(['ROLE_ADMIN']);
+            $entityManager->flush();
+            return $this->redirectToRoute('success_page', [
+                'message' => 'User has been assigned as an admin.'
+            ]);
+        } catch (\Exception $e) {
+            return new Response("Error: $e");
         }
-        $user->setRoles(['ROLE_ADMIN']);
-        $entityManager->flush();
-
-        return new Response('User has been assigned as an admin.');
     }
 }
 

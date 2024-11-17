@@ -38,29 +38,39 @@ class E03Controller extends AbstractController
         ]);
     }
 
-    #[Route('/e03/create-post', name: 'app_create_post')]
+    #[Route('/e03/posts/create', name: 'app_create_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function createPost(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $post = new Post();
-        $form = $this->createForm(PostFormType::class, $post);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-            $post->setCreatedAt(new \DateTimeImmutable());
-            $post->setUpdatedAt(new \DateTimeImmutable());
-            $user->addPost($post);
-            $entityManager->persist($post);
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_posts');
+        try {
+            if (!$this->isGranted('POST_CREATE')) {
+                return $this->redirectToRoute('error_page', [
+                    'message' => 'You do not have permission to create a post.'
+                ]);
+            }
+    
+            $post = new Post();
+            $form = $this->createForm(PostFormType::class, $post);
+    
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user = $this->getUser();
+                $post->setCreatedAt(new \DateTimeImmutable());
+                $post->setUpdatedAt(new \DateTimeImmutable());
+                $user->addPost($post);
+                $entityManager->persist($post);
+                $entityManager->persist($user);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('app_posts');
+            }
+    
+            return $this->render('posts/create.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } catch (\Exception $e) {
+            return new Response("Error: $e");
         }
-
-        return $this->render('posts/create.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/e03/posts/{id}', name: 'app_get_post')]

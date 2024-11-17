@@ -13,3 +13,5 @@ php bin/console make:migration
 
 Validate: php bin/console doctrine:schema:validate
 Update: php bin/console doctrine:schema:update --force
+DataFixtures: composer require --dev doctrine/doctrine-fixtures-bundle
+Load data: php bin/console doctrine:fixtures:load

@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Post;
 use App\Form\PostFormType;
-use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface; 
 
@@ -26,14 +25,30 @@ class E06Controller extends AbstractController
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function editPost(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
+        
         $postRepository = $entityManager->getRepository(Post::class);
         $post = $postRepository->find($id);
+        $user = $this->getUser();
 
         if (!$post) {
             throw $this->createNotFoundException('Post not found.');
         }
+        
+        if ($user === $post->getAuthor()) {
+            if (!$this->isGranted('POST_EDIT_OWN', $post)) {
+                return $this->redirectToRoute('error_page', [
+                    'message' => 'You do not have permission to edit this post.'
+                ]);
+            }
+        } else {
+            if (!$this->isGranted('POST_EDIT_ANY', $post)) {
+                return $this->redirectToRoute('error_page', [
+                    'message' => 'You do not have permission to edit this post.'
+                ]);
+            }
+        }
+        
 
-        $user = $this->getUser();
         $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($request);
 

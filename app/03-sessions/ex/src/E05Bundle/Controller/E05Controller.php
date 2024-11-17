@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\Post;
 use App\Entity\User;
-use Psr\Log\LoggerInterface; 
+use Psr\Log\LoggerInterface;
 
 class E05Controller extends AbstractController
 {
@@ -20,7 +20,7 @@ class E05Controller extends AbstractController
         $this->logger = $logger;
     }
 
-    #[Route('/e05/post-reaction/{id}', name: 'app_post_reaction')]
+    #[Route('/e05/posts/{id}/reaction', name: 'app_post_reaction')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function listPostReactions(int $id, EntityManagerInterface $entityManager): Response
     {
@@ -42,10 +42,16 @@ class E05Controller extends AbstractController
         }
     }
 
-    #[Route('/e05/post/{id}/like', name: 'app_post_like', methods: ['POST'])]
+    #[Route('/e05/posts/{id}/like', name: 'app_post_like', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function likePost(int $id, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('POST_LIKE')) {
+            return $this->redirectToRoute('error_page', [
+                'message' => 'You do not have permission to like posts.'
+            ]);
+        }
+        
         try {
             $postRepository = $entityManager->getRepository(Post::class);
             $post = $postRepository->findOneBy(['id' => $id]);
@@ -81,10 +87,16 @@ class E05Controller extends AbstractController
         }
     }
 
-    #[Route('/e05/post/{id}/dislike', name: 'app_post_dislike', methods: ['POST'])]
+    #[Route('/e05/posts/{id}/dislike', name: 'app_post_dislike', methods: ['POST'])]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function dislikePost(int $id, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('POST_DISLIKE')) {
+            return $this->redirectToRoute('error_page', [
+                'message' => 'You do not have permission to dislike posts.'
+            ]);
+        }
+
         try {
             $postRepository = $entityManager->getRepository(Post::class);
             $post = $postRepository->findOneBy(['id' => $id]);
@@ -118,7 +130,7 @@ class E05Controller extends AbstractController
         }
     }
 
-    #[Route('/e05/author/{id}', name: 'app_author_post')]
+    #[Route('/e05/authors/{id}', name: 'app_author_post')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function getAuthor(int $id, EntityManagerInterface $entityManager): Response
     {

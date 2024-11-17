@@ -6,32 +6,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SecurityController extends AbstractController
 {
     #[Route(path: '/e01/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        try {
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-        ]);
+            return $this->render('security/login.html.twig', [
+                'last_username' => $lastUsername,
+                'error' => $error,
+            ]);
+        } catch (\Exception $e) {
+            return new Response("Error: $e");
+        }
     }
 
     #[Route(path: '/e01/app', name: 'app_post_login')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function main(AuthenticationUtils $authenticationUtils): Response
     {
-        $lastUsername = $authenticationUtils->getLastUsername();
+        try {
+            $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('home/app.html.twig', [
-            'last_username' => $lastUsername,
-        ]);
+            return $this->render('home/app.html.twig', [
+                'last_username' => $lastUsername,
+            ]);
+        } catch (\Exception $e) {
+            return new Response("Error: $e");
+        }
     }
 
     #[Route(path: '/e01/logout', name: 'app_logout')]
