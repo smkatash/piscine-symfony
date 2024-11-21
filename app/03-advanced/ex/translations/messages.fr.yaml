@@ -1,0 +1,6 @@
+ex02:
+  number: 'Le numéro de configuration est %number%'
+  count:
+    none: 'aucun %count%'
+    one: 'un %count%'
+    number: 'nombre %count%'
