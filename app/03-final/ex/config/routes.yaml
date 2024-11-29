@@ -1,0 +1,3 @@
+d09bundle:
+    resource: '../src/D09Bundle/Controller/'
+    type: attribute

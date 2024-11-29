@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div style="height: 400px; overflow-y: scroll; margin: 20px auto; max-width: 80%; border: 1px solid #ccc;">
+       <table style="width: 100%; table-layout: auto; margin: 0 auto; border-collapse: collapse;">
+        <caption style="font-size: 1.5em; margin-bottom: 10px;">All Posts</caption>
+        <thead>
+            <tr>
+                <th style="padding: 10px; text-align: left;">Title</th>
+                <th style="padding: 10px; text-align: left;">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px; text-align: left;">{{ post.title }}</td>
+                    <td style="padding: 10px; text-align: left;">{{ post.created|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+       </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    annotations: false
+    http_method_override: false
+    handle_all_throwables: true
+
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
+    session:
+        # The handler used for storing session data
+        handler_id: 'session.handler.native_file'  # Default is file-based session storage
+        cookie_secure: auto  # auto means Symfony will set it to true on HTTPS and false on HTTP
+        cookie_samesite: lax  # Can be 'strict', 'lax', or 'none' for cookie handling
+        cookie_lifetime: 3600  # Duration of the session cookie in seconds (1 hour)
+        gc_maxlifetime: 3600  # Max lifetime of the session on the server (same as cookie_lifetime in this case)
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'  # Where the session files are stored
+
+    #esi: true
+    #fragments: true
+    php_errors:
+        log: true
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file

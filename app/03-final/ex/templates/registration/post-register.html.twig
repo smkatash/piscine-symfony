@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Successfull registration{% endblock %}
+
+{% block content %}
+    <div style="height: 400px; text-align: center; margin: 20px 0;">
+        <h1>Successfull registration!</h1>
+        <br>
+        <a href="{{ path('post_index') }}">
+            <button type="button">Main page</button>
+        </a>
+    </div>
+{% endblock %}

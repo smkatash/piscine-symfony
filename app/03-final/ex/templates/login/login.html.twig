@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="_username" placeholder="Username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (!username || !password) {
+                alert('Username and password are required.');
+                return;
+            }
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ _username: username, _password: password }),
+            })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    return response.json().then((errorData) => {
+                        throw new Error(errorData.error || 'Unknown error');
+                    });
+                }
+            })
+            .then((data) => {
+                if (data && data.message) {
+                    window.location.href = '/';
+                } else {
+                    alert('Unexpected response format');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

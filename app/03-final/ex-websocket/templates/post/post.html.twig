@@ -1,0 +1,299 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post Form{% endblock %}
+
+{% block content %}
+    <div id="post-details-container" style="display: none; margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+        <!-- Post details will be dynamically loaded here -->
+    </div>
+    <div id="login-form-container">
+        {% if not is_logged_in %}
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="_username" placeholder="Username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="_password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div id="post-form-container" {% if not is_logged_in %}style="display:none;"{% endif %}>
+        <h2>Create a New Post</h2>
+        {% if form is not null %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary">Submit Post</button>
+            {{ form_end(form) }}
+        {% endif %}
+    </div>
+
+    <div id="confirmation-message" style="display:none;"></div>
+
+    <div id="post-list-containter">
+        <div style="height: 400px; overflow-y: scroll; margin: 20px auto; max-width: 80%; border: 1px solid #ccc;">
+        <table style="width: 100%; table-layout: auto; margin: 0 auto; border-collapse: collapse;">
+            <caption style="font-size: 1.5em; margin-bottom: 10px;">All Posts</caption>
+            <thead>
+                <tr>
+                    <th style="padding: 10px; text-align: left;">Title</th>
+                    <th style="padding: 10px; text-align: left;">Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    <tr id="post-{{ post.id }}" style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px; text-align: left;">
+                            <a href="#" class="post-title" data-id="{{ post.id }}">
+                            {{ post.title }}
+                            </a>
+                        </td>
+                        <td style="padding: 10px; text-align: left;">{{ post.created|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.querySelector('#login-form-container form');
+        if (loginForm) {
+            document.getElementById('loginForm')?.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                if (!username || !password) {
+                    alert('Username and password are required.');
+                    return;
+                }
+
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ _username: username, _password: password }),
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        return response.json().then((errorData) => {
+                            throw new Error(errorData.error || 'Unknown error');
+                        });
+                    }
+                })
+                .then((data) => {
+                    if (data && data.message) {
+                        window.location.href = '/';
+                    } else {
+                        alert('Unexpected response format');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred: ' + error.message);
+                });
+            });
+
+        }
+
+        const postForm = document.querySelector('#post-form-container form');
+        if (postForm) {
+            postForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const form = new FormData(this);
+
+                fetch('{{ path('post_create') }}', {
+                    method: 'POST',
+                    body: form,
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            return response.json().then((errorData) => {
+                                throw new Error(errorData.error || 'Unknown error');
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        const confirmationMessage = document.getElementById('confirmation-message');
+                        if (data.success) {
+                            confirmationMessage.textContent = data.message;
+                            confirmationMessage.style.display = 'block';
+                            this.reset();
+                            const postListBody = document.querySelector('#post-list-containter tbody');
+                            const newRow = document.createElement('tr');
+                            newRow.id = `post-${data.newPost.id}`;
+                            newRow.style.borderBottom = '1px solid #ddd';
+                            newRow.innerHTML = `
+                                <td style="padding: 10px; text-align: left;">
+                                    <a href="#" class="post-title" data-id="${data.newPost.id}">
+                                        ${data.newPost.title}
+                                    </a>
+                                </td>
+                                <td style="padding: 10px; text-align: left;">${data.newPost.created}</td>
+                            `;
+                            postListBody.appendChild(newRow);
+                            const postTitles = document.querySelectorAll('.post-title');
+                            postTitles.forEach((title) => {
+                                title.addEventListener('click', function (event) {
+                                    event.preventDefault();
+                                    const postId = parseInt(this.dataset.id);
+                                    fetch(`/view/${postId}`)
+                                        .then((response) => {
+                                            if (!response.ok) {
+                                                return response.json().then((errorData) => {
+                                                    throw new Error(errorData.error || 'Unknown error');
+                                                });
+                                            }
+                                            return response.json();
+                                        })
+                                        .then((post) => {
+                                            const postDetailsContainer = document.getElementById('post-details-container');
+                                            postDetailsContainer.innerHTML = `
+                                                <h3>Post Details</h3>
+                                                <p><strong>Title:</strong> ${post.title}</p>
+                                                <p><strong>Content:</strong> ${post.content}</p>
+                                                <p><strong>Created:</strong> ${post.created}</p>
+                                            `;
+
+                                            const deleteButton = document.createElement('button');
+                                            deleteButton.textContent = 'Delete Post';
+                                            deleteButton.classList.add('btn', 'btn-danger');
+                                            deleteButton.setAttribute('data-id', postId);
+
+                                            postDetailsContainer.appendChild(deleteButton);
+                                            postDetailsContainer.style.display = 'block';
+
+                                            deleteButton.addEventListener('click', function () {
+                                                const postIdToDelete = parseInt(this.dataset.id);
+                                                if (confirm('Are you sure you want to delete this post?')) {
+                                                    fetch(`/delete/${postIdToDelete}`, {
+                                                        method: 'DELETE',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                    })
+                                                    .then((response) => response.json())
+                                                    .then((data) => {
+                                                        if (data.success) {
+                                                            alert(data.message);
+                                                            postDetailsContainer.style.display = 'none';
+                                                            const postRow = document.querySelector(`#post-${postIdToDelete}`);
+                                                            if (postRow) {
+                                                                postRow.remove();
+                                                            }
+                                                        } else {
+                                                            alert('Error: ' + data.error);
+                                                        }
+                                                    })
+                                                    .catch((error) => {
+                                                        console.error('Error:', error);
+                                                        alert('An error occurred while deleting the post.');
+                                                    });
+                                                }
+                                            });
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error:', error);
+                                            const postDetailsContainer = document.getElementById('post-details-container');
+                                            postDetailsContainer.innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
+                                            postDetailsContainer.style.display = 'block';
+                                        });
+                                });
+                            });
+                        } else {
+                            confirmationMessage.textContent = 'Error: ' + data.error;
+                            confirmationMessage.style.display = 'block';
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert(error);
+                        const confirmationMessage = document.getElementById('confirmation-message');
+                        confirmationMessage.textContent = 'An error occurred: ' + error.message;
+                        confirmationMessage.style.display = 'block';
+                    });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const postTitles = document.querySelectorAll('.post-title');
+
+            postTitles.forEach((title) => {
+                title.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const postId = this.dataset.id;
+
+                    fetch(`/view/${postId}`)
+                        .then((response) => {
+                            if (!response.ok) {
+                                return response.json().then((errorData) => {
+                                    throw new Error(errorData.error || 'Unknown error');
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then((post) => {
+                            const postDetailsContainer = document.getElementById('post-details-container');
+                            postDetailsContainer.innerHTML = `
+                                <h3>Post Details</h3>
+                                <p><strong>Title:</strong> ${post.title}</p>
+                                <p><strong>Content:</strong> ${post.content}</p>
+                                <p><strong>Created:</strong> ${post.created}</p>
+                            `;
+
+                            const deleteButton = document.createElement('button');
+                            deleteButton.textContent = 'Delete Post';
+                            deleteButton.classList.add('btn', 'btn-danger');
+                            deleteButton.setAttribute('data-id', postId);
+
+                            postDetailsContainer.appendChild(deleteButton);
+                            postDetailsContainer.style.display = 'block';
+                            deleteButton.addEventListener('click', function () {
+                            const postIdToDelete = this.dataset.id;
+                            if (confirm('Are you sure you want to delete this post?')) {
+                                    fetch(`/delete/${postIdToDelete}`, {
+                                        method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                        })
+                                        .then((response) => response.json())
+                                        .then((data) => {
+                                            if (data.success) {
+                                                alert(data.message);
+                                                postDetailsContainer.style.display = 'none';
+                                                const postRow = document.querySelector(`#post-${postIdToDelete}`);
+                                                if (postRow) {
+                                                    postRow.remove();
+                                                }
+                                            } else {
+                                                alert('Error: ' + data.error);
+                                            }
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error:', error);
+                                            alert('An error occurred while deleting the post.');
+                                        });
+                            } else {
+                                alert('Error: ' + data.error);
+                            }
+                        })
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        const postDetailsContainer = document.getElementById('post-details-container');
+                        postDetailsContainer.innerHTML = `<p class="error">An error occurred: ${error.message}</p>`;
+                        postDetailsContainer.style.display = 'block';
+                    });
+                });
+            });
+        });
+
+    </script>
+{% endblock %}
+
