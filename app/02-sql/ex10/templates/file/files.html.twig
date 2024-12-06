@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Files{% endblock %}
+
+{% block body %}
+    <h1>Uploaded Files</h1>
+
+    <div style="align: center; margin: 20px 0;">
+    <h3>ORM Tables</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>File Content</th>
+                <th>Uploaded At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in ormfiles %}
+                <tr>
+                    <td>{{ file.name }}</td>
+                    <td>
+                        <div style="width: 800px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word; padding: 5px; border: 1px solid #ccc; background-color: #f8f9fa;">
+                            {{ file.content }}
+                        </div>
+                    </td>
+                    <td>{{ file.createdAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No files have been uploaded yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>SQL Tables</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>File Content</th>
+                <th>Uploaded At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in sqlfiles %}
+                <tr>
+                    <td>{{ file.name }}</td>
+                    <td>
+                        <div style="width: 800px; max-height: 200px; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word; padding: 5px; border: 1px solid #ccc; background-color: #f8f9fa;">
+                            {{ file.content }}
+                        </div>
+                    </td>
+                    <td>{{ file.createdAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">No files have been uploaded yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <div style="height: 400px; text-align: center; margin: 20px 0;"> 
+        <a href="{{ path('upload_file') }}" class="btn btn-primary">Upload New File</a>
+    </div>
+{% endblock %}

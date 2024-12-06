@@ -1,0 +1,63 @@
+POST http://127.0.0.1:8000/ex09/create-person
+content-type: application/json
+
+{
+  "username": "jsmith",
+  "name": "John",
+  "email": "john@email.com",
+  "marital_status": "married"
+}
+###
+
+POST http://127.0.0.1:8000/ex09/create-person
+content-type: application/json
+
+{
+  "username": "sconor",
+  "name": "Sarah",
+  "email": "sarah@email.com",
+  "marital_status": "single"
+}
+
+###
+POST http://127.0.0.1:8000/ex09/person/1/add-bank-account
+content-type: application/json
+
+{
+  "account_number": "1234567894"
+}
+
+###
+POST http://127.0.0.1:8000/ex09/person/7/add-bank-account
+content-type: application/json
+
+{
+  "account_number": "1234561214"
+}
+###
+
+POST http://127.0.0.1:8000/ex09/person/1/set-address
+content-type: application/json
+
+{
+  "street": "123 Main Street",
+  "city": "Springfield",
+  "country": "USA"
+}
+
+###
+POST http://127.0.0.1:8000/ex09/person/7/set-address
+content-type: application/json
+
+{
+  "street": "123 Main Street",
+  "city": "Springfield",
+  "country": "USA"
+}
+###
+
+POST http://127.0.0.1:8000/ex09/bank-account/3
+
+{
+  "account_number": "9876543210"
+}

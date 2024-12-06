@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}File Upload{% endblock %}
+
+{% block body %}
+    <h1>Upload File</h1>
+    
+    <form action="{{ path('upload_file') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <button type="submit">Upload</button>
+    </form>
+
+    <div>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endblock %}

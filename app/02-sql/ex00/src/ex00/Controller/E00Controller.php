@@ -34,7 +34,7 @@ class E00Controller extends AbstractController
         try {
             $results = $dbService->execute($command);
             return new JsonResponse(['message' => 'Table created successfully.'], Response::HTTP_OK);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return new Response("Error creating table: $e");
         }
     }
@@ -53,7 +53,7 @@ class E00Controller extends AbstractController
         try {
             $results = $dbService->query($command);
             return new JsonResponse(['message' => $results], Response::HTTP_OK);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return new Response("Error creating table: $e");
         }
     }

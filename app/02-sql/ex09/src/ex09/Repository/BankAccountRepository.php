@@ -1,40 +1,40 @@
 <?php
 
-namespace App\Repository;
+namespace App\ex09\Repository;
 
-use App\Entity\Person;
+use App\ex09\Entity\BankAccount;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Person>
+ * @extends ServiceEntityRepository<BankAccount>
  */
-class PersonRepository extends ServiceEntityRepository
+class BankAccountRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Person::class);
+        parent::__construct($registry, BankAccount::class);
     }
 
     //    /**
-    //     * @return Person[] Returns an array of Person objects
+    //     * @return BankAccount[] Returns an array of BankAccount objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
+    //        return $this->createQueryBuilder('b')
+    //            ->andWhere('b.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
+    //            ->orderBy('b.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Person
+    //    public function findOneBySomeField($value): ?BankAccount
     //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
+    //        return $this->createQueryBuilder('b')
+    //            ->andWhere('b.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

@@ -10,6 +10,7 @@ composer require symfony/form
 php bin/console doctrine:migrations:diff
 php bin/console doctrine:database:drop --force
 php bin/console make:migration
+php bin/console make:entity
 
 Validate: php bin/console doctrine:schema:validate
 Update: php bin/console doctrine:schema:update --force
@@ -17,3 +18,4 @@ DataFixtures: composer require --dev doctrine/doctrine-fixtures-bundle
 Load data: php bin/console doctrine:fixtures:load
 Check params in container: php bin/console debug:container --parameters
 Test: php vendor/bin/phpunit --debug
+php bin/console doctrine:migrations:migrate
